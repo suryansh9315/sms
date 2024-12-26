@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Logbook{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
+
+    <div class="mb-6 p-4 bg-gray-100 border border-gray-300 rounded-lg">
+        <h2 class="text-xl font-semibold">Your Pending Amount:</h2>
+        <p class="text-lg">{{ pending_amount|floatformat:2 }}</p>
+    </div>
+    <button id="showAdminInfo" class="bg-blue-500 text-white py-2 px-4 rounded mb-4">Show Payment Info</button>
+
+    <h1 class="text-2xl font-bold mb-4 text-center">Transaction Logbook</h1>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Transaction ID</th>
+                    <th class="py-2 px-4 border-b">Amount</th>
+                    <th class="py-2 px-4 border-b">Date</th>
+                    <th class="py-2 px-4 border-b">Given To</th>
+                    <th class="py-2 px-4 border-b">Given By</th>
+                    <th class="py-2 px-4 border-b">Settled</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in page_obj %}
+                <tr>
+                    <td class="py-2 px-4 border-b">{{ transaction.transaction_id }}</td>
+                    <td class="py-2 px-4 border-b">{{ transaction.transaction_amount }}</td>
+                    <td class="py-2 px-4 border-b">{{ transaction.transaction_date }}</td>
+                    <td class="py-2 px-4 border-b">{{ transaction.transaction_given_to }}</td>
+                    <td class="py-2 px-4 border-b">{{ transaction.transaction_given_by }}</td>
+                    <td class="py-2 px-4 border-b">{{ transaction.transaction_settle|yesno:"Yes,No" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        <nav class="flex justify-between">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="py-2 px-4 bg-blue-500 text-white rounded">Previous</a>
+            {% else %}
+            <span class="py-2 px-4 bg-gray-200 text-gray-500 rounded">Previous</span>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="py-2 px-4 bg-blue-500 text-white rounded">Next</a>
+            {% else %}
+            <span class="py-2 px-4 bg-gray-200 text-gray-500 rounded">Next</span>
+            {% endif %}
+        </nav>
+    </div>
+
+    <div id="adminInfoModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm mx-auto relative">
+                <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+                <h2 class="text-xl font-bold mb-4">Admin Payment Info</h2>
+                <div class="mb-4">
+                    <img src="{{ url }}" alt="Admin Image" class="w-full h-auto mb-4">
+                </div>
+                <div class="mb-4">
+                    <p class="text-lg"><strong>Phone:</strong> {{ admin_payment_info.phone }}</p>
+                </div>
+                <div>
+                    <p class="text-lg"><strong>UPI ID:</strong> {{ admin_payment_info.upiid }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('showAdminInfo').addEventListener('click', function () {
+        document.getElementById('adminInfoModal').classList.remove('hidden');
+    });
+
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('adminInfoModal').classList.add('hidden');
+    });
+</script>
+{% endblock %}

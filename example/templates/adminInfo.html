@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Info{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">Admin Info</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="image" class="block text-gray-700">Upload Image:</label>
+            <input type="file" id="image" name="image" class="mt-1 block w-full" required>
+        </div>
+        
+        <div class="mb-4">
+            <label for="number_value" class="block text-gray-700">Number Value:</label>
+            <input type="text" id="number_value" name="number_value" class="mt-1 block w-full" required>
+        </div>
+        
+        <div class="mb-4">
+            <label for="string_value" class="block text-gray-700">String Value:</label>
+            <input type="text" id="string_value" name="string_value" class="mt-1 block w-full" required>
+        </div>
+        
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Update Admin Info</button>
+    </form>
+</div>
+{% endblock %}

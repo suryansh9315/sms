@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}My Website{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+    <header class="bg-blue-600 text-white absolute top-0 w-full">
+        <nav class="container mx-auto p-4 flex justify-center items-center">
+            <div class="grid grid-cols-2 space-x-4 w-full">
+                <div class="col-span-1 space-x-4">
+                    {% if user_authenticated %}
+                    <a href="{% url 'logbook' %}" class="hover:underline">Logbook</a>
+                    {% if user_is_admin %}
+                    <a href="{% url 'admin' %}" class="hover:underline">Admin</a>
+                    {% endif %}
+                </div>
+                <div class="col-span-1 flex items-center justify-end">
+                    <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="hover:underline">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+            <ul class="flex space-x-4">
+
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 min-h-screen mt-16">
+        {% block content %}
+        <!-- Content will be injected here -->
+        {% endblock %}
+    </main>
+    
+
+    <footer class="bg-blue-600 text-white text-center py-4 mt-4">
+        <p>&copy; 2024 Society Management</p>
+    </footer>
+</body>
+
+</html>

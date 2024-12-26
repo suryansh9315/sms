@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">Admin Dashboard</h1>
+    <h2 class="text-xl font-semibold mb-2">Add Transaction</h2>
+    {% if messages %}
+    <div class="my-4">
+        {% for message in messages %}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="transaction_amount" class="block text-gray-700">Transaction Amount:</label>
+            <input type="number" id="transaction_amount" name="transaction_amount" step="0.01" class="mt-1 block w-full"
+                required>
+        </div>
+
+        <div class="mb-4">
+            <label for="transaction_date" class="block text-gray-700">Transaction Date:</label>
+            <input type="datetime-local" id="transaction_date" name="transaction_date" class="mt-1 block w-full"
+                required>
+        </div>
+
+        <div class="mb-4">
+            <label for="transaction_given_to" class="block text-gray-700">Given To:</label>
+            <input type="text" id="transaction_given_to" name="transaction_given_to" class="mt-1 block w-full" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="transaction_given_by" class="block text-gray-700">Given By:</label>
+            <input type="text" id="transaction_given_by" name="transaction_given_by" class="mt-1 block w-full" required>
+        </div>
+        <div class="mb-4">
+            <label for="settle_checkbox" class="block text-gray-700">Settle this amount among all users:</label>
+            <input type="checkbox" id="settle_checkbox" name="settle_checkbox" class="mt-1">
+        </div>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Add Transaction</button>
+    </form>
+
+    <div class="mt-8">
+        <h2 class="text-xl font-semibold mb-2">Manage Admin Info</h2>
+        <a href="{% url 'admin_info' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Admin Info</a>
+    </div>
+    <div class="mt-8">
+        <h2 class="text-xl font-semibold mb-2">Manage User Data</h2>
+        <a href="{% url 'user_data' %}" class="bg-blue-500 text-white py-2 px-4 rounded">User Data</a>
+    </div>
+    
+    
+</div>
+{% endblock %}
